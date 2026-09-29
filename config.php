@@ -1,9 +1,9 @@
 <?php
 // InfinityFree DB credentials. Replace with values from your vPanel > MySQL Databases.
-$db_host = "sql208.infinityfree.com";
-$db_user = "if0_42930881";
-$db_pass = "hipos213"; // click the eye icon to reveal it
-$db_name = "if0_42930881_messages";
+$db_host = "sql207.thsite.top";
+$db_user = "thsi_43043581";
+$db_pass = "9U!2?AK?"; // click the eye icon to reveal it
+$db_name = "thsi_43043581_MAAMAAAA";
 
 $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
 
