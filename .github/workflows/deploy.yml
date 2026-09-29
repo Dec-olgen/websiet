@@ -1,27 +1,21 @@
-name: Deploy to InfinityFree
- 
+name: Deploy to TinkerHost
 on:
   push:
-    branches:
-      - main
- 
+    branches: [main]
+  workflow_dispatch:
+
 jobs:
-  ftp-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
- 
-      - name: FTP Deploy
+      - uses: actions/checkout@v4
+      - name: FTP deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
           local-dir: ./
           server-dir: /htdocs/
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/.github/**
- 
