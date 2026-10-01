@@ -36,7 +36,7 @@ $departments = mysqli_query($conn, "SELECT * FROM departments ORDER BY name");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Edit Employee</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 <header><h1>Edit Employee</h1>
