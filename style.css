@@ -20,3 +20,18 @@ input, select { width: 100%; padding: 9px; border: 1px solid #bbb; border-radius
 .msg { padding: 10px 14px; border-radius: 5px; margin-bottom: 15px; background: #dff3e4; color: #1b5e30; }
 .search input { width: 220px; }
 .table-wrap { overflow-x: auto; }
+
+/* Navigation tabs */
+header nav { margin-top: 12px; display: flex; gap: 10px; }
+header nav a {
+    background: rgba(255,255,255,.18) !important;
+    color: #fff !important;
+    padding: 8px 20px;
+    border-radius: 6px;
+    text-decoration: none !important;
+    font-weight: bold;
+    font-size: 15px;
+    margin: 0 !important;
+}
+header nav a:hover { background: rgba(255,255,255,.35) !important; }
+header nav a.active { background: #fff !important; color: #1f4e79 !important; }
