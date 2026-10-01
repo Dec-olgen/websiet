@@ -10,7 +10,7 @@ if ($search !== "") {
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 } else {
-    $result = mysqli_query($conn, "SELECT * FROM employees ORDER BY id DESC");
+    $result = mysqli_query($conn, "SELECT * FROM employees ORDER BY id ASC");
 }
 ?>
 <!DOCTYPE html>
