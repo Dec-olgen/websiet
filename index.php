@@ -1,17 +1,21 @@
 <?php
-// READ: show all employees (with optional search)
+// READ: show all employees (with department filter and search)
 include "config.php";
 
 $search = isset($_GET['search']) ? trim($_GET['search']) : "";
-if ($search !== "") {
-    $like = "%" . $search . "%";
-    $stmt = mysqli_prepare($conn, "SELECT * FROM employees WHERE first_name LIKE ? OR last_name LIKE ? OR department LIKE ? OR position LIKE ? ORDER BY id DESC");
-    mysqli_stmt_bind_param($stmt, "ssss", $like, $like, $like, $like);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
+$dept   = isset($_GET['department']) ? trim($_GET['department']) : "";
+$like   = "%" . $search . "%";
+$departments = ["Human Resources", "Finance", "IT", "Marketing", "Operations", "Sales"];
+
+if ($dept !== "") {
+    $stmt = mysqli_prepare($conn, "SELECT * FROM employees WHERE department = ? AND (first_name LIKE ? OR last_name LIKE ? OR position LIKE ?) ORDER BY id ASC");
+    mysqli_stmt_bind_param($stmt, "ssss", $dept, $like, $like, $like);
 } else {
-    $result = mysqli_query($conn, "SELECT * FROM employees ORDER BY id ASC");
+    $stmt = mysqli_prepare($conn, "SELECT * FROM employees WHERE (first_name LIKE ? OR last_name LIKE ? OR department LIKE ? OR position LIKE ?) ORDER BY id ASC");
+    mysqli_stmt_bind_param($stmt, "ssss", $like, $like, $like, $like);
 }
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +34,13 @@ if ($search !== "") {
     <div class="card">
         <div class="top-bar">
             <form class="search" method="get">
-                <input type="text" name="search" placeholder="Search name, department, position" value="<?php echo htmlspecialchars($search); ?>">
+                <select name="department" onchange="this.form.submit()" style="width:auto;">
+                    <option value="">All Departments</option>
+                    <?php foreach ($departments as $d): ?>
+                        <option value="<?php echo $d; ?>" <?php if ($dept === $d) echo "selected"; ?>><?php echo $d; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <input type="text" name="search" placeholder="Search name or position" value="<?php echo htmlspecialchars($search); ?>">
                 <button class="btn btn-save" type="submit">Search</button>
                 <a class="btn btn-gray" href="index.php">Reset</a>
             </form>
