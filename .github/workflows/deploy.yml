@@ -9,6 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Create config.php from secrets
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+        run: |
+          php -r '$o="<?php\n"; foreach(["host"=>"DB_HOST","user"=>"DB_USER","pass"=>"DB_PASS","db"=>"DB_NAME"] as $k=>$e){ $o.="\$".$k." = ".var_export(getenv($e),true).";\n"; } $o.="\$conn = mysqli_connect(\$host, \$user, \$pass, \$db);\nif (!\$conn) { die(\"Connection failed: \" . mysqli_connect_error()); }\n"; file_put_contents("config.php",$o);'
+
       - name: FTP deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -25,4 +35,3 @@ jobs:
             **/.github/**
             README.md
             database.sql
-            config.php
